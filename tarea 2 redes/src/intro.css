@@ -1,0 +1,49 @@
+/*
+ * Style twaks
+ * --------------------------------------------------
+ */
+body {
+  padding-top: 70px;
+  
+ 
+   background-color: #eee;
+  background-image: url("paper3.jpg");
+   
+    
+    background-size: cover;
+ 
+}
+
+footer {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+/*
+ * Off Canvas
+ * --------------------------------------------------
+ */
+.agregar {color:#eee;
+background:#428bca;
+padding: 5px 38px;
+border-radius: 5px;}
+
+
+ button{
+position:relative;
+ top:300px;
+ }
+@media screen and (max-width: 768px) {
+  
+  .sidebar-offcanvas {
+    position: absolute;
+    top: 0;
+    width: ; /* 6 columns */
+  }
+  }
+  
+  
+  
+  
+  
+}
