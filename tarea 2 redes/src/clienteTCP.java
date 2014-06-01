@@ -1,7 +1,7 @@
 import java.io.*;
 import java.net.*;
-
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -9,18 +9,28 @@ public class clienteTCP {
 	
 	 Socket conexion;
 	 final static int  port= 8086;
+	 
+	 String IP;
+	 int Puerto;
+
+	 
 	
 	 
-	 public clienteTCP(String ip_out,String port_out,String ip_in, String port_in,String message){
+	 public clienteTCP(){ // in persona contacto
 		 try {
+			 
 			this.conexion=new Socket("localhost",port);
-		} catch (UnknownHostException e) {
+			this.IP = Inet4Address.getLocalHost().getHostAddress();
+			this.Puerto = port;	
+			
+			
+		} catch (UnknownHostException ex) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.getLogger(clienteTCP.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	 
+		}
 	 }
 	 
 	 public void sendmessage (String message) throws IOException{
