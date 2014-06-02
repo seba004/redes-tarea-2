@@ -41,9 +41,17 @@ position:relative;
     width: ; /* 6 columns */
   }
   }
-  
-  
-  
-  
-  
+.container2{color:#eee;
+padding: 50px 400px;
+position:relative;
+top:-320px;
+}
+.btnchat{
+color:#eee;
+background:#428bca;
+padding: 5px 38px;
+position:relative;
+top:20px;
+
+border-radius: 5px;
 }
