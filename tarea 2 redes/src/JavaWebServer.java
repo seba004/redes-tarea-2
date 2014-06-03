@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException; 
 import java.io.InputStreamReader; 
@@ -25,11 +26,12 @@ public class JavaWebServer
  
     
 	
-	private static String corta(String palabra){
+	private static String corta(String palabra, String pedido){ //modificar para que me devuelva lo que yo quiero
 		int i=0;
 		String nombre = null;
-		String ip;
-		String puerto;
+		String ip = null;
+		String puerto = null;
+		String entrega = null;
 		String[] tuplas =palabra.split("&");
 		
 		 
@@ -46,8 +48,19 @@ public class JavaWebServer
 			 }
 			 i++;
 		 }
-		return nombre;
+		 
+		 if (pedido.equals("nombre")){
+			 entrega = nombre;			 
+		 }
 		
+		 if (pedido.equals("ip")){
+			 entrega = ip;			 
+		 }
+		 if (pedido.equals("puerto")){
+			 entrega = puerto;			 
+		 }
+		
+		 return entrega;
 	}
 	
 	private static void escritor(String palabro) throws IOException {
@@ -55,6 +68,15 @@ public class JavaWebServer
 		String fichero = "contactos.html";
 	    FileWriter escri = new FileWriter("src/" + fichero,true); //valor true agregara los datos nuevos
 	    escri.write("<p>"+palabro+"</p>\r\n");// se guarda el nombre en el archivo de texto con formato html
+	    escri.close();
+		
+	}
+	
+	private static void escritor2(String palabro) throws IOException {
+		
+		String fichero = "todo.txt";
+	    FileWriter escri = new FileWriter("src/" + fichero,true); //valor true agregara los datos nuevos
+	    escri.write(palabro+"\n");// se guarda el nombre en el archivo de texto con formato html
 	    escri.close();
 		
 	}
@@ -78,14 +100,54 @@ public class JavaWebServer
     
     }
     
-	
+    private static String obtener(String contacto, String pedido) {
+	      File archivo = null;
+	      FileReader fr = null;
+	      BufferedReader br = null;
+	      String nombre;
+	      String entrega = null;
+	 
+	      try {
+	         archivo = new File ("src/todo.txt");
+	         fr = new FileReader (archivo);
+	         br = new BufferedReader(fr);
+	 
+	         // Lectura del fichero
+	         String linea;
+	         while((linea = br.readLine())!= null){
+	        	 
+	        		        	 
+	        	 nombre = corta(linea,"nombre");
+	        		        		        	 
+	        	 if(nombre.equals(contacto)){
+	        		 entrega = corta(linea,pedido);	        		 
+	        		 
+	        		 
+	        	 }
+	         }
+	        	// return entrega;
+	      }
+	      catch(Exception e){
+	         e.printStackTrace();
+	      }finally{
+	        
+	         try{                    
+	            if( null != fr ){   
+	               fr.close();     
+	            }                  
+	         }catch (Exception e2){ 
+	            e2.printStackTrace();
+	         }
+	      }
+		return entrega;
+	   }
 	
 	
 	
 	
 	public static void main(String[] args) throws IOException 
 	{ 
-		ServerSocket socket = new ServerSocket(8086); // se crea socket en puerto designado
+		ServerSocket socket = new ServerSocket(8083); // se crea socket en puerto designado
 		
 		while (true) 
 		{
@@ -99,8 +161,16 @@ public class JavaWebServer
 				} 
 			};
 			fThreadPool.execute(task);
+			
 		}
+		
+		
+		
 	}   
+	
+	static String contacto = "no a seleccionado contacto"; // ver si resulta
+	static String ip_contacto;
+	static String port_contacto;
 	
 	private static void HandleRequest(Socket sockete)
 	{ 
@@ -167,14 +237,51 @@ public class JavaWebServer
 				
 			}
 			
+			
+			
 			if(postsize > 0) {
 				char cont[] = new char[postsize];
 				in.read(cont);
 				String a = new String(cont);
-				escritor(corta(a));
+				
+				
+				
+				
+				//System.out.println(contacto);
+				//System.out.println(a); //ver que se escribe en los "Post"
+				
+				if  (a.contains("%24")){ // $ quiere chatear con alguien	
+					
+				contacto = a.substring(10);
+							
+				ip_contacto = obtener(contacto,"ip");
+				port_contacto = obtener(contacto,"puerto");
+				
+				//System.out.println(ip_contacto);
+				//System.out.println(port_contacto);
+								
+				}
+				
+				if(a.contains("%23")){ // esta escribiendo en el chat
+					
+				String mensaje = a.substring(10);
+				
+				//System.out.println(mensaje);
+				//System.out.println(contacto);
+				//System.out.println(ip_contacto);
+				//System.out.println(port_contacto);
+					
+				}
+				if(a.contains("&")){ // esta agregando un contacto
+				
+				escritor(corta(a,"nombre"));
+				escritor2(a);
 				postsize = 0;
+						
+				}
 			}
 			
+		
 		} 
 		catch (IOException e)
 		{ 
@@ -187,6 +294,7 @@ public class JavaWebServer
 				try 
 				{
 					sockete.close();
+					
 				} 
 				catch (IOException e)
 				{ 
