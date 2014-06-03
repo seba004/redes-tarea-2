@@ -44,8 +44,8 @@ public class clienteTCP {
 		 outServer.flush();
 	 }
 	 
-	 public void ask_message(String IP,int puerto, String ip_contacto, String port_contacto) throws IOException{
-		 String Puerto = Integer.toString(puerto);
+	 public void ask_message( String ip_contacto, String port_contacto) throws IOException{
+		 String Puerto = Integer.toString(port);
 		 DataOutputStream outServer = new DataOutputStream(this.conexion.getOutputStream());
 		 outServer.writeBytes(protocol_set[1]+"¬¬"+IP+"¬¬"+Puerto+"¬¬"+ip_contacto+"¬¬"+port_contacto+'\n');
 		 outServer.flush();
