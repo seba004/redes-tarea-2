@@ -52,7 +52,7 @@ public class clienteTCP {
 		
 	 }
 	 
-	 public void send_message(String IP,int puerto, String ip_contacto, String port_contacto,String message) throws IOException{
+	 public void send_message( String ip_contacto, String port_contacto,String message) throws IOException{
 		
 		 DataOutputStream outServer = new DataOutputStream(this.conexion.getOutputStream());
 		 outServer.writeBytes(protocol_set[2]+"¬¬"+IP+"¬¬"+Puerto+"¬¬"+ip_contacto+"¬¬"+port_contacto+"¬¬"+message+'\n');//ip salida puerto salida ip llegada puerto llegda
