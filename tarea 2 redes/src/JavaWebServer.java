@@ -15,6 +15,7 @@ import java.util.concurrent.Executors;
 
 
 
+
 public class JavaWebServer
 {   
 	private static final int fNumberOfThreads = 100;	//para que el  servidor pueda tener varios clientes
@@ -148,8 +149,8 @@ public class JavaWebServer
 
 	public static void main(String[] args) throws IOException 
 	{ 
-		ServerSocket socket = new ServerSocket(8083); // se crea socket en puerto designado
-
+		ServerSocket socket = new ServerSocket(10016); // se crea socket en puerto designado
+		
 		while (true) 
 		{
 			final Socket connection = socket.accept(); //while  hasta que  exista conexion 
@@ -159,6 +160,7 @@ public class JavaWebServer
 				public void run() 
 				{ 
 					HandleRequest(connection);//ejecuto hilos como  manejadores del soket
+					
 				} 
 			};
 			fThreadPool.execute(task);
@@ -241,56 +243,85 @@ public class JavaWebServer
 
 
 			if(postsize > 0) {
+				
 				char cont[] = new char[postsize];
 				in.read(cont);
 				String a = new String(cont);
-
-
 				clienteTCP clienton = new clienteTCP();
-				clienton.say_hi();
-				String respuesta = clienton.read_server();
-				StringTokenizer tokens = new StringTokenizer(respuesta,"¬¬");
-				String Protocolo =tokens.nextToken();
-				if (Protocolo.equals("hi_back")){
-					String massage =tokens.nextToken();
-					System.out.println(massage);
-				}
+					
+
+				
 				//System.out.println(contacto);
 				//System.out.println(a); //ver que se escribe en los "Post"
 
 				if  (a.contains("%24")){ // $ quiere chatear con alguien	
-
+					System.out.println("muerte acaaaaaa");
+					//clienteTCP clienton = new clienteTCP();
+					clienton.say_hi();
+					String respuesta = clienton.read_server();
+					StringTokenizer tokens = new StringTokenizer(respuesta,"¬¬");
+					String Protocolo =tokens.nextToken();
+					if (Protocolo.equals("hi_back")){
+						String massage =tokens.nextToken();
+						System.out.println(massage);
+					}	
+				
+				
 				contacto = a.substring(10);
-
+				
 				ip_contacto = obtener(contacto,"ip");
 				port_contacto = obtener(contacto,"puerto");
 				
 				
 				clienton.ask_message( ip_contacto, port_contacto);//crear variables para las cosa sque se manda
 				String respuesta_peticion;
-				String fichero = "chat.html";
+				String fichero = "chatactual.html";
 			    FileWriter escri = new FileWriter("src/" + fichero,true); //valor true agregara los datos nuevos
 			   
 				while (clienton.read_server()!= null){
-					 respuesta_peticion = clienton.read_server();
+					respuesta_peticion = clienton.read_server();
+					System.out.println(respuesta_peticion);
+					if (respuesta_peticion.equals("okrady")){
+						 System.out.println("finalize");
+					}
+					else{
 					StringTokenizer token = new StringTokenizer(respuesta_peticion,"¬¬");
 					String Protocolo1 =token.nextToken();
 					if(Protocolo1.equals("dispach_message")){
 						String chat =token.nextToken();
 						escri.write("<p>"+chat+"</p>\r\n");
 					}
+					if(Protocolo1.equals("end")){
+						String chat =token.nextToken();
+						System.out.println(chat);
+					}
 				}
+			}
 				 escri.close();
-
+				 System.out.println("finalize");
 				//System.out.println(ip_contacto);
 				//System.out.println(port_contacto);
-
+						
 				}
 
 				if(a.contains("%23")){ // esta escribiendo en el chat
-
+				
+					//clienteTCP clienton = new clienteTCP();
+					clienton.say_hi();
+					String respuesta = clienton.read_server();
+					StringTokenizer tokens = new StringTokenizer(respuesta,"¬¬");
+					String Protocolo =tokens.nextToken();
+					if (Protocolo.equals("hi_back")){
+						String massage =tokens.nextToken();
+						System.out.println(massage);
+					}	
+					
+					
 				String mensaje = a.substring(10);
 				clienton.send_message(ip_contacto, port_contacto, mensaje);
+				
+				System.out.println("infinito en html");
+				
 				String ultima_respuesta = clienton.read_server();
 				StringTokenizer toke = new StringTokenizer(respuesta,"¬¬");
 				String Protocolo3 =toke.nextToken();
@@ -306,6 +337,7 @@ public class JavaWebServer
 				//System.out.println(port_contacto);
 
 				}
+				
 				if(a.contains("&")){ // esta agregando un contacto
 
 				escritor(corta(a,"nombre"));
