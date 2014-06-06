@@ -1,3 +1,4 @@
+
 import java.io.*;
 import java.net.*;
 import java.util.logging.Level;
@@ -12,7 +13,7 @@ import java.util.logging.Logger;
 public class clienteTCP {
 	
 	 Socket conexion;
-	 final static int  port= 8086;
+	 final static int  port= 9100;
 	 
 	 String IP;
 	 int Puerto;
@@ -47,7 +48,8 @@ public class clienteTCP {
 	 public void ask_message( String ip_contacto, String port_contacto) throws IOException{
 		 String Puerto = Integer.toString(port);
 		 DataOutputStream outServer = new DataOutputStream(this.conexion.getOutputStream());
-		 outServer.writeBytes(protocol_set[1]+"¬¬"+IP+"¬¬"+Puerto+"¬¬"+ip_contacto+"¬¬"+port_contacto+'\n');
+		 outServer.writeBytes(protocol_set[1]+"¬¬"+ip_contacto+'\n');
+		
 		 outServer.flush();
 		
 	 }
@@ -55,7 +57,8 @@ public class clienteTCP {
 	 public void send_message( String ip_contacto, String port_contacto,String message) throws IOException{
 		
 		 DataOutputStream outServer = new DataOutputStream(this.conexion.getOutputStream());
-		 outServer.writeBytes(protocol_set[2]+"¬¬"+IP+"¬¬"+Puerto+"¬¬"+ip_contacto+"¬¬"+port_contacto+"¬¬"+message+'\n');//ip salida puerto salida ip llegada puerto llegda
+		 outServer.writeBytes(protocol_set[2]+"¬¬"+IP+"¬¬"+message+'\n');//ip salida puerto salida ip llegada puerto llegda
+		 
 		 outServer.flush();
 	 }
 	
