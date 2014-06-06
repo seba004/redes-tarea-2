@@ -13,7 +13,11 @@ import java.util.logging.Logger;
 public class clienteTCP {
 	
 	 Socket conexion;
+<<<<<<< HEAD
 	 final static int  port= 9100;
+=======
+	 final static int  port= 9046;
+>>>>>>> 87c2a40c7dae2099051b247f79e4d99530a878c3
 	 
 	 String IP;
 	 int Puerto;

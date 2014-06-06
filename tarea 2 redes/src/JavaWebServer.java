@@ -149,7 +149,11 @@ public class JavaWebServer
 
 	public static void main(String[] args) throws IOException 
 	{ 
+<<<<<<< HEAD
 		ServerSocket socket = new ServerSocket(10100); // se crea socket en puerto designado
+=======
+		ServerSocket socket = new ServerSocket(10016); // se crea socket en puerto designado
+>>>>>>> 87c2a40c7dae2099051b247f79e4d99530a878c3
 		
 		while (true) 
 		{
@@ -255,8 +259,13 @@ public class JavaWebServer
 				//System.out.println(a); //ver que se escribe en los "Post"
 
 				if  (a.contains("%24")){ // $ quiere chatear con alguien	
+<<<<<<< HEAD
 					
 					
+=======
+					System.out.println("muerte acaaaaaa");
+					//clienteTCP clienton = new clienteTCP();
+>>>>>>> 87c2a40c7dae2099051b247f79e4d99530a878c3
 					clienton.say_hi();
 					String respuesta = clienton.read_server();
 					StringTokenizer tokens = new StringTokenizer(respuesta,"¬¬");
@@ -277,6 +286,7 @@ public class JavaWebServer
 				String respuesta_peticion;
 				String fichero = "chatactual.html";
 			    FileWriter escri = new FileWriter("src/" + fichero,true); //valor true agregara los datos nuevos
+<<<<<<< HEAD
 			   int control=1;
 				while (control==1){
 					 respuesta_peticion=clienton.read_server();
@@ -292,13 +302,39 @@ public class JavaWebServer
 					}
 					
 				
+=======
+			   
+				while (clienton.read_server()!= null){
+					respuesta_peticion = clienton.read_server();
+					System.out.println(respuesta_peticion);
+					if (respuesta_peticion.equals("okrady")){
+						 System.out.println("finalize");
+					}
+					else{
+					StringTokenizer token = new StringTokenizer(respuesta_peticion,"¬¬");
+					String Protocolo1 =token.nextToken();
+					if(Protocolo1.equals("dispach_message")){
+						String chat =token.nextToken();
+						escri.write("<p>"+chat+"</p>\r\n");
+					}
+					if(Protocolo1.equals("end")){
+						String chat =token.nextToken();
+						System.out.println(chat);
+					}
+				}
+			}
+>>>>>>> 87c2a40c7dae2099051b247f79e4d99530a878c3
 				 escri.close();
 				 System.out.println("finalize");
 				//System.out.println(ip_contacto);
 				//System.out.println(port_contacto);
+<<<<<<< HEAD
 				 	
 					postsize=0;
 					
+=======
+						
+>>>>>>> 87c2a40c7dae2099051b247f79e4d99530a878c3
 				}
 
 				if(a.contains("%23")){ // esta escribiendo en el chat
@@ -317,7 +353,11 @@ public class JavaWebServer
 				String mensaje = a.substring(10);
 				clienton.send_message(ip_contacto, port_contacto, mensaje);
 				
+<<<<<<< HEAD
 				
+=======
+				System.out.println("infinito en html");
+>>>>>>> 87c2a40c7dae2099051b247f79e4d99530a878c3
 				
 				String ultima_respuesta = clienton.read_server();
 				StringTokenizer toke = new StringTokenizer(respuesta,"¬¬");
